@@ -1,0 +1,163 @@
+/* notes for rps project: have method for each of the win prints aka you win, you lose, you tie
+have reset  method
+use else if; also will update this notes */
+
+/* learn lists, and also pseudocode:
+
+*/
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class rpsV3 {
+
+public static int restartVar = 1;
+public static int resetVar = 1;
+public static Scanner scanner = new Scanner(System.in);
+
+  public static void tryAgain(){
+    System.out.println("\nInvalid response!");
+    reset();
+  }
+
+  public static void reset() {
+    System.out.println("\nWould you like to play a new game? \nEnter reset to play a new game: \nIf you would like to restart, enter restart:");
+    String resetText = scanner.nextLine();
+    if(!resetText.equals("reset") && !resetText.equals("restart")){
+      tryAgain();
+    } else{
+      if(resetText.equals("reset")){
+        System.out.println("\n");
+        resetVar--;
+      } else if(resetText.equals("restart")){
+        System.out.println("\n");
+        restartVar--;
+      }
+    }
+  }
+
+  public static void main(String[] args){
+    while (restartVar == 1){
+      System.out.println("\nEnter multiplayer to play against a friend:\nEnter singleplayer to play against an AI:");
+      String gameChoice = scanner.nextLine();
+      if(resetVar == 2){
+          resetVar--;
+      }
+      if(gameChoice.equals("multiplayer")){
+        multiplayer();
+        restartVar++;
+      } else if(gameChoice.equals("singleplayer")){
+        singleplayer();
+        restartVar++;
+
+      }
+    }
+  }
+
+  public static void singleplayer() {
+      Random random = new Random();
+      for (int i = 0; i < 30; i++){
+        int aiChoice = random.nextInt(3) + 1;
+        if(aiChoice == 1){
+            System.out.println("rock");
+
+        } else if(aiChoice == 2){
+            System.out.println("paper");
+
+        } else if(aiChoice == 3) {
+            System.out.println("scissors"); 
+      }
+    }
+  }
+
+  public static void multiplayer() {
+    
+    while (resetVar == 1) {
+      System.out.println("\nEnter Player One name: ");
+      String playerOne = scanner.nextLine();
+      resetVar++;
+
+      System.out.println("\nEnter Player Two name: ");
+      String playerTwo = scanner.nextLine();
+
+      System.out.println("\nPlayer One is: " + playerOne + "\nPlayer Two is: " + playerTwo + "\n");
+
+      int playerOneMove = 1;
+      while (playerOneMove == 1) {
+
+        System.out.println(playerOne + ", enter your move as shown, rock, paper, or scissors:");
+
+        String moveOne = scanner.nextLine();
+        System.out.print(String.format("\033[%dA", 1)); // Move up a line
+        System.out.print("\033[2K"); // Erase line content
+        System.out.print("\n");
+
+        if(!moveOne.equals("rock") && !moveOne.equals("scissors") && !moveOne.equals("paper")) {
+          System.out.println("That is an invalid move!\n");
+        } else {
+          playerOneMove++;
+
+          int playerTwoMove = 1;
+          while (playerTwoMove == 1) {
+            System.out.println(playerTwo + ", enter your move as shown, rock, paper, or scissors:");
+
+            String moveTwo = scanner.nextLine();
+            System.out.print(String.format("\033[%dA", 1)); // Move up a line
+            System.out.print("\033[2K"); // Erase line content
+            System.out.print("\n");
+
+            if(!moveTwo.equals("rock") && !moveTwo.equals("paper") && !moveTwo.equals("scissors")){
+              System.out.println("That is an invalid move!\n");
+            } else {
+              playerTwoMove++;
+
+              if(moveOne.equals("rock")){
+                if(moveTwo.equals("rock")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\nIt was a tie!");
+                  reset();
+                  
+                } else if(moveTwo.equals("paper")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerTwo + " won!");
+                  reset();
+
+                } else if(moveTwo.equals("scissors")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerOne + " won!");
+                  reset();
+                }
+              } else if(moveOne.equals("paper")){
+                if(moveTwo.equals("rock")){
+                System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerOne + " won!");
+                reset();
+
+                } else if(moveTwo.equals("paper")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\nIt was a tie!");
+                  reset();
+
+                } else if(moveTwo.equals("scissors")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerTwo + " won!");
+                  reset();
+                }
+              } else if(moveOne.equals("scissors")){
+                if(moveTwo.equals("rock")){
+                System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerTwo + " won!");
+                reset();
+                
+                } else if(moveTwo.equals("paper")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\n" + playerOne + " won!");
+                  reset();
+
+                } else if(moveTwo.equals("scissors")){
+                  System.out.println(playerOne + " chose: " + moveOne + "\n" + playerTwo + " chose: " + moveTwo + "\nIt was a tie!");
+                  reset();
+                }
+              }
+            }
+
+          }
+        }
+
+      }
+    }
+
+  }
+}
