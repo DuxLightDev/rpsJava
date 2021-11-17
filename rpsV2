@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class rpsV3 {
 
+public static int replayVar = 1;
 public static int restartVar = 1;
 public static int resetVar = 1;
 public static Scanner scanner = new Scanner(System.in);
@@ -23,6 +24,8 @@ public static Scanner scanner = new Scanner(System.in);
   public static void reset() {
     System.out.println("\nWould you like to play a new game? \nEnter reset to play a new game: \nIf you would like to restart, enter restart:");
     String resetText = scanner.nextLine();
+    // or figure out way to use gameChoice to check if single or multi to know to reset which one
+    // use different variable for single player, maybe replayText which allows us to know if it is singleplayer or multi instead of checkign whether gameChoice was multi or single
     if(!resetText.equals("reset") && !resetText.equals("restart")){
       tryAgain();
     } else{
@@ -36,8 +39,20 @@ public static Scanner scanner = new Scanner(System.in);
     }
   }
 
-  public static void main(String[] args){
+  public static void main(String[] args){ 
+    //find something to clear console to add right here, will mak ethings a lot nicer 
     while (restartVar == 1){
+      String welcome = "Welcome to Rock Paper Scissors!\n";
+      for (int index = 0; index < welcome.length(); index++){
+        char letter = welcome.charAt(index);
+        System.out.print(letter);
+        try{
+          Thread.sleep(100);
+
+        } catch(InterruptedException e) {
+
+        }
+      }
       System.out.println("\nEnter multiplayer to play against a friend:\nEnter singleplayer to play against an AI:");
       String gameChoice = scanner.nextLine();
       if(resetVar == 2){
@@ -55,17 +70,40 @@ public static Scanner scanner = new Scanner(System.in);
   }
 
   public static void singleplayer() {
-      Random random = new Random();
-      for (int i = 0; i < 30; i++){
-        int aiChoice = random.nextInt(3) + 1;
-        if(aiChoice == 1){
-            System.out.println("rock");
+    String aiArray[];
+    aiArray = new String[3];
+    aiArray[0] = "rock";
+    aiArray[1] = "paper";
+    aiArray[2] = "scissors";
+    Random random = new Random();
+    int aiChoice = random.nextInt(3);
 
-        } else if(aiChoice == 2){
-            System.out.println("paper");
+    System.out.println("Enter your move as shown: rock, paper, or scissors:\n");
+    String playerChoice = scanner.nextLine();
+    if(!playerChoice.equals(aiArray[0]) && !playerChoice.equals(aiArray[1]) && !playerChoice.equals(aiArray[2])){
+      System.out.println("\nInvalid option!");
+      singleplayer();
+    } else {
+      if(playerChoice.equals(aiArray[aiChoice])){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nIt was a tie!");
 
-        } else if(aiChoice == 3) {
-            System.out.println("scissors"); 
+      } else if(playerChoice.equals("rock") && aiChoice == 1){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nThe AI won!");
+
+      } else if(playerChoice.equals("rock") && aiChoice == 2){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nYou won!");
+
+      } else if(playerChoice.equals("paper") && aiChoice == 0){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nYou won!");
+
+      } else if(playerChoice.equals("paper") && aiChoice == 2){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nThe AI won!");
+
+      } else if(playerChoice.equals("scissors") && aiChoice == 0){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nThe AI won!");
+
+      } else if(playerChoice.equals("scissors") && aiChoice == 2){
+        System.out.println("\nYou chose: " + playerChoice + "\nThe AI chose: " + aiArray[aiChoice] + "\nYou won!");
       }
     }
   }
